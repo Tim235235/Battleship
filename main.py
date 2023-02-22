@@ -1,5 +1,5 @@
 import numpy as np
-
+'''
 game_board = np.array([
         ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
         ["1", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
@@ -14,10 +14,12 @@ game_board = np.array([
         ["10", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
         ]
     )
+'''
+
 
 # Ship placements & printing/clearing the board
 
-
+# Поправить вызов каждый раз
 def allowed_moves():
     possible_moves = []
     for i in range(1, 11):
@@ -57,20 +59,18 @@ def board():
         print(*game_board[i])
 
 
-def checking_for_hit(player):
-    for i in range(len(player)):
-        if len(player[i]) == 2:
-            game_board[player[i][1]][player[i][0]] = "X"
-            board()
-        elif len(player[i]) == 3:
-            game_board[player[i][1]][player[i][0]] = "H"
-            board()
+def checking_for_hit(player_cords):
+    for i in range(len(player_cords)):
+        if len(player_cords[i]) == 2:
+            game_board[player_cords[i][1]][player_cords[i][0]] = "X"
+        elif len(player_cords[i]) == 3:
+            game_board[player_cords[i][1]][player_cords[i][0]] = "H"
+    board()
 
 
 def player_turn(player, enemy):
     print("|Ship checker|\n")
     clearing_board()
-    checking_for_hit(player)
     while True:
         x = int(input(": "))
         y = int(input(": "))
@@ -79,21 +79,30 @@ def player_turn(player, enemy):
                 enemy.remove([y, x])
                 player.append([y, x, "H"])
                 print("You hit an enemy ship")
-                clearing_board()
-                checking_for_hit(player)
                 break
             else:
                 player.append([y, x])
-                clearing_board()
-                checking_for_hit(player)
                 break
         else:
             print("try again")
 
 
 
+# pl1 -> pl2 : 0, 0 X
+# 1
+# 22
+# 333
+# 4444
+'''
+counter = 0
+for key in game_board:
+    if counter % 10 == 0:
+        print("\n")
+    print(game_board[key])
+    counter += 1
 
-
+'''
+game_board = {[0, 0]: '2', [0, 1]: '2'}
 
 player_one_cords = []
 player_two_cords = []
@@ -110,9 +119,16 @@ flag = True
 while flag:
     print("Player 1 turn")
     player_turn(player_one_moves, player_two_cords)
+    print(player_one_moves)
+    checking_for_hit(player_one_moves)
+    if len(player_two_cords) == 0:
+        break
     print("---------------------------------------------------------------------------------"
           "-----------------------------------------------")
     print("Player 2 turn")
     player_turn(player_two_moves, player_one_cords)
+    checking_for_hit(player_two_moves)
+    if len(player_one_cords) == 0:
+        break
     print("---------------------------------------------------------------------------------"
           "-----------------------------------------------")
