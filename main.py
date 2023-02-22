@@ -1,18 +1,11 @@
 import numpy as np
 
 
-def cords_list(possible_moves):
-    for i in range(11):
-        for b in range(11):
-            possible_moves.append([i, b])
-            available_moves = np.array(possible_moves)
-            return available_moves
-
-
 def player_ship_placement(player):
-    while len(player) != 20:
-        cords = int(input(": "))
-        if available_moves:
+    while np.count_nonzero(player == "X") != 20:
+        x = input(": ")
+        y = int(input(": "))
+        if player[y][letter_to_number[x]] == "-":
             player[y][letter_to_number[x]] = "X"
             for d in range(len(player)):
                 print(*player[d])
@@ -82,10 +75,11 @@ def main() -> None:
 
 
 
-if __name__ == "__main__":
-    player_one = []
-    player_two = []
-
+if _name_ == "__main__":
+    # Перейти от досок к спискам координат
+    # Создать функцию для печати поля по координатам
+    # {"x": 0, "y": 0, "ship": 0}
+    # player_1 = np.array([0,0], [0, 1], .. [9, 9])
     player_1 = np.array([
         ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
         ["1", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
