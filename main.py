@@ -1,87 +1,7 @@
 import numpy as np
 
-
-def player_ship_placement(player):
-    while np.count_nonzero(player == "X") != 20:
-        x = input(": ")
-        y = int(input(": "))
-        if player[y][letter_to_number[x]] == "-":
-            player[y][letter_to_number[x]] = "X"
-            for d in range(len(player)):
-                print(*player[d])
-        else:
-            print("try again")
-
-
-def players_turn(player_checker, enemy):
-    print("Checking Board")
-    while True:
-        x = input(": ")
-        y = int(input(": "))
-        if letter_to_number[x] < 11 and y < 11 and y > 0 and letter_to_number[x] > 0:
-            if enemy[y][letter_to_number[x]] == "X":
-                print("You hit an enemy ship")
-                enemy[y][letter_to_number[x]] = "X"
-                player_checker[y][letter_to_number[x]] = "H"
-            elif enemy[y][letter_to_number[x]] == "-":
-                enemy[y][letter_to_number[x]] = "X"
-                player_checker[y][letter_to_number[x]] = "X"
-            for d in range(len(player_checker)):
-                print(*player_checker[d])
-        else:
-            print("Those coordinates don't exist. Try again")
-
-
-def printing_board(player):
-    for i in range(len(player)):
-        print(*player[i])
-# Main code
-
-
-def main() -> None:
-    print("\n|Each player will get 6 ships. Use the cords on the map to place your ship|\n")
-    for i in range(len(player_1)):
-        print(*player_1[i])
-
-    # Getting ship placements
-    print("Player 1 turn")
-    player_ship_placement(player_1)
-    for i in range(100):
-        print()
-    print("Player 2 turn")
-    player_ship_placement(player_2)
-
-    # Playing(main while loop)
-    print("Time to play. Look at your checking board to find positions to attack. First one to destroy all ships wins!")
-
-    printing_board(player_1_checker)
-
-    flag = True
-    while flag:
-        print("Player 1 turn")
-        printing_board(player_1_checker)
-        players_turn(player_1_checker, player_2)
-        if np.count_nonzero(player_1_checker == "H") == 20:
-            print("player 1 won")
-            break
-        print("---------------------------------------------------------------------------------"
-              "-----------------------------------------------")
-        print("Player 2 turn")
-        printing_board(player_2_checker)
-        players_turn(player_2_checker, player_1)
-        if np.count_nonzero(player_2_checker == "H") == 20:
-            print("player 2 won")
-            break
-
-
-
-if _name_ == "__main__":
-    # Перейти от досок к спискам координат
-    # Создать функцию для печати поля по координатам
-    # {"x": 0, "y": 0, "ship": 0}
-    # player_1 = np.array([0,0], [0, 1], .. [9, 9])
-    player_1 = np.array([
-        ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+game_board = np.array([
+        ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
         ["1", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
         ["2", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
         ["3", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
@@ -95,50 +15,104 @@ if _name_ == "__main__":
         ]
     )
 
-    player_1_checker = np.array([
-        ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
-        ["1", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["2", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["3", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["4", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["5", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["6", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["7", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["8", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["9", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["10", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
-    ]
-    )
+# Ship placements & printing/clearing the board
 
-    player_2 = np.array([
-        ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
-        ["1", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["2", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["3", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["4", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["5", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["6", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["7", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["8", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["9", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["10", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
-    ]
-    )
 
-    player_2_checker = np.array([
-        ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
-        ["1", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["2", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["3", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["4", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["5", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["6", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["7", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["8", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["9", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-        ["10", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
-    ]
-    )
-    letter_to_number = {"A": 1, "B": 2, "C": 3, "D": 4, "E": 5, "F": 6, "G": 7, "H": 8, "I": 9, "J": 10}
+def allowed_moves():
+    possible_moves = []
+    for i in range(1, 11):
+        for b in range(1, 11):
+            possible_moves.append([i, b])
+    available_moves = np.array(possible_moves)
+    return available_moves
 
-    main()
+
+def player_ship_placement(player):
+    while len(player) != 3:
+        print("Enter coords")
+        x = int(input(": "))
+        y = int(input(": "))
+        if x in allowed_moves() and y in allowed_moves() and player.count([y, x]) == 0:
+            player.append([y, x])
+            game_board[x][y] = "X"
+            board()
+        else:
+            print("Try again those coordinates don't work")
+    for i in range(100):
+        print()
+    clearing_board()
+
+
+def clearing_board():
+    while np.count_nonzero(game_board == "X") != 0 or np.count_nonzero(game_board == "H") != 0:
+        for row_index, row in enumerate(game_board):
+            for col_index, cell in enumerate(row):
+                if cell == "X" or cell == "H":
+                    game_board[row_index][col_index] = "-"
+    return game_board
+
+
+def board():
+    for i in range(len(game_board)):
+        print(*game_board[i])
+
+
+def checking_for_hit(player):
+    for i in range(len(player)):
+        if len(player[i]) == 2:
+            game_board[player[i][1]][player[i][0]] = "X"
+            board()
+        elif len(player[i]) == 3:
+            game_board[player[i][1]][player[i][0]] = "H"
+            board()
+
+
+def player_turn(player, enemy):
+    print("|Ship checker|\n")
+    clearing_board()
+    checking_for_hit(player)
+    while True:
+        x = int(input(": "))
+        y = int(input(": "))
+        if x in allowed_moves() and y in allowed_moves() and player.count([y, x]) == 0:
+            if [y, x] in enemy:
+                enemy.remove([y, x])
+                player.append([y, x, "H"])
+                print("You hit an enemy ship")
+                clearing_board()
+                checking_for_hit(player)
+                break
+            else:
+                player.append([y, x])
+                clearing_board()
+                checking_for_hit(player)
+                break
+        else:
+            print("try again")
+
+
+
+
+
+
+player_one_cords = []
+player_two_cords = []
+
+player_one_moves = []
+player_two_moves = []
+
+print("|Player 1 turn|:\n")
+player_ship_placement(player_one_cords)
+print("|Player 2 turn|:\n")
+player_ship_placement(player_two_cords)
+
+flag = True
+while flag:
+    print("Player 1 turn")
+    player_turn(player_one_moves, player_two_cords)
+    print("---------------------------------------------------------------------------------"
+          "-----------------------------------------------")
+    print("Player 2 turn")
+    player_turn(player_two_moves, player_one_cords)
+    print("---------------------------------------------------------------------------------"
+          "-----------------------------------------------")
