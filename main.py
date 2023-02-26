@@ -4,21 +4,26 @@ import numpy as np
 
 
 def ship_placement(player):
-    # 0 -> 10
     for i in range(11):
         for b in range(11):
-            player["cords"].update([((i, b), "-")])
+            if i != 0 and b != 0:
+                player["cords"].update([((i, b), "-")])
+            elif i == 0:
+                player["cords"].update([((i, b), b)])
+            if b == 0:
+                player["cords"].update([((i, b), i)])
+    print_board(player)
+
+
+def print_board(player):
     moves = 0
     counter = 0
     while moves != 20:
         x = int(input(": "))
         y = int(input(": "))
-        if x in allowed_moves() and y in allowed_moves():
+        if x in possible_moves and y in possible_moves:
             player["cords"].update([((y, x), "X")])
-            # Создать функцию для печати поля
-            # Вернуть буквы и цифры
             for i in range(11):
-                print(i + 1, end=" ")
                 for b in range(11):
                     print(player["cords"][(i, b)], end=" ")
                     counter += 1
@@ -30,21 +35,21 @@ def ship_placement(player):
     for i in range(100):
         print()
 
-# Вызывать функцию только один раз, в начале игры!
+
 def allowed_moves():
-    possible_moves = []
+    moves = []
     for i in range(1, 11):
         for b in range(1, 11):
-            possible_moves.append([i, b])
-    available_moves = np.array(possible_moves)
+            moves.append([i, b])
+    available_moves = np.array(moves)
     return available_moves
 
 
-def player_turn(enemy, player):
+def player_guess(enemy, player):
     while True:
         x = int(input(": "))
         y = int(input(": "))
-        if x in allowed_moves() and y in allowed_moves():
+        if x in possible_moves and y in possible_moves:
             if enemy["cords"][(y, x)] == "X":
                 player["Hits"].append((y, x))
                 print("You hit an enemy ship! Congratulations")
@@ -67,6 +72,7 @@ board_checker_1 = {"cords": {}}
 board_checker_2 = {"cords": {}}
 player_1_shots = {"Misses": [], "Hits": []}
 player_2_shots = {"Misses": [], "Hits": []}
+possible_moves = allowed_moves()
 
 # Main action
 print("Start by placing your ships on the game board. You will need to cover 20 tiles in total. "
@@ -84,15 +90,13 @@ ship_placement(player_2)
 while True:
     # Создать универсальную функцию
     print("Player 1 turn")
-    player_turn(player_2, player_1_shots)
+    player_guess(player_2, player_1_shots)
     print("-----------------------------------------------------------------------------------------------------------")
     if len(player_1_shots["Hits"]) == 20:
         print("Player 1 won")
         break
-
-
     print("Player 2 turn")
-    player_turn(player_1, player_2_shots)
+    player_guess(player_1, player_2_shots)
     print("-----------------------------------------------------------------------------------------------------------")
     if len(player_2_shots["Hits"]) == 20:
         print("Player 2 won")
